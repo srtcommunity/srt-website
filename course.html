@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Course | Smart Retail Traders</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Open+Sans:wght@300;400;500;600&family=Merriweather:ital,wght@0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:       #002244;
+      --navy-dk:    #001833;
+      --navy-lt:    #003366;
+      --green:      #00796B;
+      --green-lt:   #009688;
+      --green-dim:  rgba(0,121,107,.1);
+      --green-line: rgba(0,121,107,.3);
+      --steel:      #79A1B8;
+      --steel-dim:  rgba(121,161,184,.12);
+      --mint:       #A9DFBF;
+      --mint-dim:   rgba(169,223,191,.18);
+      --white:      #FAFAFA;
+      --gray-bg:    #F0F4F8;
+      --border:     rgba(0,34,68,.09);
+      --body:       #2D3F52;
+      --muted:      #6B84A0;
+      --head:       'Montserrat', sans-serif;
+      --sans:       'Open Sans', sans-serif;
+      --serif:      'Merriweather', Georgia, serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--body); font-family: var(--sans); overflow-x: hidden; }
+
+    /* ── TICKER ── */
+    .ticker-bar { background: var(--navy-dk); min-height: 46px; display: flex; align-items: stretch; overflow: hidden; }
+    .ticker-label { background: var(--green); color: #fff; font-family: var(--head); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 0 20px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ticker-live-dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1.8s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.8)} }
+    .ticker-tv { flex: 1; min-width: 0; display: flex; align-items: center; }
+    .ticker-tv .tradingview-widget-container,
+    .ticker-tv .tradingview-widget-container__widget { width: 100%; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(250,250,250,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--navy);
+      padding: 0 6%; height: 70px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 46px; width: 46px; object-fit: contain; }
+    .nav-brand { display: flex; flex-direction: column; line-height: 1.15; }
+    .nav-brand .name { font-family: var(--head); font-size: 14px; font-weight: 800; color: var(--navy); letter-spacing: -.01em; }
+    .nav-brand .tagline-nav { font-family: var(--head); font-size: 9px; font-weight: 500; color: var(--green); letter-spacing: .12em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+    .nav-links a {
+      font-family: var(--head); font-size: 13px; font-weight: 500;
+      color: var(--body); text-decoration: none; padding: 8px 14px; border-radius: 4px;
+      transition: color .2s, background .2s;
+    }
+    .nav-links a:hover { color: var(--green); background: var(--green-dim); }
+    .nav-links a.active { color: var(--green); font-weight: 700; }
+    .nav-links .cta-btn {
+      background: var(--green); color: #fff !important; padding: 9px 20px;
+      border-radius: 4px; font-weight: 700 !important; margin-left: 8px;
+      transition: background .2s, transform .15s !important;
+      box-shadow: 0 2px 12px rgba(0,121,107,.25);
+    }
+    .nav-links .cta-btn:hover { background: var(--green-lt) !important; transform: translateY(-1px); background: none; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy); border-radius: 2px; transition: all .3s; }
+
+    /* ── PAGE BANNER ── */
+    .page-banner { background: var(--navy); padding: 64px 6% 72px; position: relative; overflow: hidden; }
+    .page-banner::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(121,161,184,.05) 0px, transparent 0px), linear-gradient(90deg, rgba(121,161,184,.05) 0px, transparent 0px); background-size: 52px 52px; }
+    .page-banner::after { content: ''; position: absolute; right: -60px; top: -60px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(0,121,107,.14) 0%, transparent 70%); }
+    .banner-inner { position: relative; z-index: 2; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .breadcrumb a { font-family: var(--head); font-size: 12px; color: rgba(255,255,255,.45); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--mint); }
+    .breadcrumb-sep { color: rgba(255,255,255,.25); font-size: 11px; }
+    .breadcrumb-current { font-family: var(--head); font-size: 12px; color: var(--mint); font-weight: 600; }
+    .page-banner h1 { font-family: var(--head); font-size: clamp(36px, 5vw, 60px); font-weight: 800; color: #fff; letter-spacing: -.025em; margin-bottom: 14px; line-height: 1.1; }
+    .page-banner h1 span { color: var(--mint); }
+    .page-banner p { font-size: 17px; color: rgba(255,255,255,.6); max-width: 580px; line-height: 1.75; font-weight: 300; }
+
+    /* ── UTILITY ── */
+    .section { padding: 88px 6%; }
+    .section-gray { background: var(--gray-bg); }
+    .section-navy { background: var(--navy); }
+    .eyebrow { display: inline-block; font-family: var(--head); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 14px; border-radius: 3px; margin-bottom: 14px; }
+    .eyebrow-green { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-line); }
+    .eyebrow-steel { background: var(--steel-dim); color: var(--steel); border: 1px solid rgba(121,161,184,.3); }
+    .eyebrow-white { background: rgba(255,255,255,.08); color: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.15); }
+    .eyebrow-mint { background: var(--mint-dim); color: #1a7a52; border: 1px solid rgba(169,223,191,.4); }
+    .h2 { font-family: var(--head); font-size: clamp(28px,3.5vw,44px); font-weight: 800; line-height: 1.15; color: var(--navy); margin-bottom: 14px; letter-spacing: -.02em; }
+    .h2 .accent { color: var(--green); }
+    .h2-white { color: #fff; }
+    .lead { font-size: 17px; color: var(--muted); line-height: 1.75; max-width: 580px; font-weight: 300; margin-bottom: 52px; }
+    .lead-white { color: rgba(255,255,255,.6); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--head); font-weight: 700; font-size: 13px; letter-spacing: .04em; padding: 13px 26px; border-radius: 4px; text-decoration: none; transition: all .2s; }
+    .btn-green { background: var(--green); color: #fff; box-shadow: 0 4px 20px rgba(0,121,107,.3); }
+    .btn-green:hover { background: var(--green-lt); transform: translateY(-2px); }
+    .btn-ghost-dark { background: transparent; color: var(--navy); border: 1.5px solid var(--border); }
+    .btn-ghost-dark:hover { border-color: var(--green); color: var(--green); transform: translateY(-2px); }
+    .btn-ghost-white { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.3); }
+    .btn-ghost-white:hover { border-color: var(--mint); background: rgba(169,223,191,.08); transform: translateY(-2px); }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    /* ── AT A GLANCE ── */
+    .glance-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .glance-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 24px 16px; text-align: center; box-shadow: 0 2px 10px rgba(0,34,68,.05); transition: transform .25s, box-shadow .25s; }
+    .glance-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,34,68,.1); }
+    .glance-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+    .glance-label { font-family: var(--head); font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+    .glance-value { font-family: var(--head); font-size: 14px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+
+    /* ── CURRICULUM TABS ── */
+    .curriculum-wrap { display: grid; grid-template-columns: 280px 1fr; gap: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,34,68,.07); }
+    .tab-list { background: var(--gray-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+    .tab-btn {
+      display: flex; align-items: center; gap: 14px;
+      padding: 20px 22px; border: none; background: transparent;
+      cursor: pointer; width: 100%; text-align: left;
+      border-bottom: 1px solid var(--border);
+      transition: background .2s;
+      position: relative;
+    }
+    .tab-btn:last-child { border-bottom: none; }
+    .tab-btn:hover { background: rgba(0,121,107,.05); }
+    .tab-btn.active { background: #fff; }
+    .tab-btn.active::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 3px; background: var(--green); }
+    .tab-btn-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; background: var(--steel-dim); transition: background .2s; }
+    .tab-btn.active .tab-btn-icon { background: var(--green-dim); }
+    .tab-btn-text { flex: 1; }
+    .tab-btn-num { font-family: var(--head); font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: .08em; }
+    .tab-btn-title { font-family: var(--head); font-size: 13px; font-weight: 700; color: var(--navy); margin-top: 2px; line-height: 1.3; }
+    .tab-btn.active .tab-btn-title { color: var(--green); }
+    .tab-btn-arrow { color: var(--muted); font-size: 12px; flex-shrink: 0; opacity: 0; transition: opacity .2s; }
+    .tab-btn.active .tab-btn-arrow { opacity: 1; color: var(--green); }
+
+    .tab-panels { background: #fff; }
+    .tab-panel { display: none; padding: 40px 44px; }
+    .tab-panel.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateX(12px)} to{opacity:1;transform:none} }
+    .panel-header { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .panel-icon-lg { width: 60px; height: 60px; border-radius: 12px; background: var(--green-dim); border: 1px solid var(--green-line); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .panel-meta { flex: 1; }
+    .panel-num { font-family: var(--head); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 4px; }
+    .panel-title { font-family: var(--head); font-size: 24px; font-weight: 800; color: var(--navy); margin-bottom: 6px; letter-spacing: -.015em; }
+    .panel-desc { font-size: 15px; color: var(--muted); line-height: 1.7; }
+    .panel-badge { background: var(--green-dim); border: 1px solid var(--green-line); color: var(--green); font-family: var(--head); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; align-self: flex-start; margin-top: 4px; }
+    .topics-label { font-family: var(--head); font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+    .topics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .topic-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; background: var(--gray-bg); border-radius: 6px; border: 1px solid var(--border); }
+    .topic-check { width: 20px; height: 20px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .topic-check svg { width: 10px; height: 10px; }
+    .topic-text { font-size: 13px; color: var(--body); line-height: 1.4; font-weight: 500; }
+
+    /* ── WHAT'S INCLUDED ── */
+    .included-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .included-list { display: flex; flex-direction: column; gap: 14px; }
+    .included-item { display: flex; align-items: flex-start; gap: 16px; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; transition: box-shadow .25s, transform .25s; }
+    .included-item:hover { box-shadow: 0 6px 20px rgba(0,34,68,.08); transform: translateX(4px); }
+    .inc-icon { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; background: var(--green-dim); border: 1px solid var(--green-line); }
+    .inc-body h4 { font-family: var(--head); font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .inc-body p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .included-visual { background: var(--navy); border-radius: 16px; padding: 44px 40px; text-align: center; }
+    .iv-big { font-family: var(--head); font-size: 80px; font-weight: 800; color: var(--green); line-height: 1; }
+    .iv-sub { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 32px; margin-top: 4px; }
+    .iv-pills { display: flex; flex-direction: column; gap: 10px; }
+    .iv-pill { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09); border-radius: 6px; padding: 12px 16px; font-family: var(--head); font-size: 13px; font-weight: 500; color: rgba(255,255,255,.8); }
+    .iv-pill-icon { font-size: 16px; }
+
+    /* ── HOW IT WORKS ── */
+    .steps-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+    .steps-row::before { content: ''; position: absolute; top: 36px; left: calc(12.5% + 20px); right: calc(12.5% + 20px); height: 2px; background: linear-gradient(90deg, var(--green), var(--steel)); z-index: 0; }
+    .step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+    .step-circle { width: 72px; height: 72px; border-radius: 50%; background: var(--navy); border: 3px solid var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; box-shadow: 0 4px 20px rgba(0,34,68,.2); }
+    .step-num { position: absolute; top: -6px; right: calc(50% - 42px); width: 22px; height: 22px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--head); font-size: 10px; font-weight: 800; color: #fff; }
+    .step h3 { font-family: var(--head); font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .step p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+    .step-tag { display: inline-block; background: var(--green-dim); color: var(--green); border: 1px solid var(--green-line); font-family: var(--head); font-size: 10px; font-weight: 700; letter-spacing: .07em; padding: 3px 10px; border-radius: 100px; margin-top: 10px; text-transform: uppercase; }
+
+    /* ── MARKETS ── */
+    .markets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .market-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 28px 24px; transition: box-shadow .25s, transform .25s; border-top: 3px solid transparent; }
+    .market-card:nth-child(1) { border-top-color: var(--navy); }
+    .market-card:nth-child(2) { border-top-color: var(--green); }
+    .market-card:nth-child(3) { border-top-color: var(--steel); }
+    .market-card:nth-child(4) { border-top-color: #6BAE8A; }
+    .market-card:nth-child(5) { border-top-color: #C87A3A; }
+    .market-card:nth-child(6) { border-top-color: #8B5CF6; }
+    .market-card:hover { box-shadow: 0 8px 28px rgba(0,34,68,.1); transform: translateY(-4px); }
+    .market-icon { font-size: 36px; margin-bottom: 14px; display: block; }
+    .market-card h3 { font-family: var(--head); font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .market-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* ── ENQUIRE CTA ── */
+    .enquire-section { background: var(--navy); padding: 88px 6%; position: relative; overflow: hidden; }
+    .enquire-section::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(121,161,184,.05) 0px, transparent 0px), linear-gradient(90deg, rgba(121,161,184,.05) 0px, transparent 0px); background-size: 52px 52px; }
+    .enquire-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+    .enquire-text h2 { font-family: var(--head); font-size: clamp(26px, 3.5vw, 44px); font-weight: 800; color: #fff; margin-bottom: 14px; letter-spacing: -.02em; }
+    .enquire-text h2 .accent { color: var(--mint); }
+    .enquire-text p { font-size: 17px; color: rgba(255,255,255,.58); line-height: 1.75; font-weight: 300; max-width: 520px; }
+    .enquire-card { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 36px 32px; text-align: center; min-width: 280px; }
+    .eq-label { font-family: var(--head); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 8px; }
+    .eq-headline { font-family: var(--head); font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .eq-note { font-size: 13px; color: rgba(255,255,255,.45); margin-bottom: 24px; }
+    .enquire-card .btn { width: 100%; justify-content: center; margin-bottom: 10px; }
+    .eq-sub { font-size: 12px; color: rgba(255,255,255,.35); margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .eq-dot { width: 6px; height: 6px; background: #F87171; border-radius: 50%; animation: blink 2s infinite; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--navy-dk); border-top: 3px solid var(--green); padding: 64px 6% 0; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .ft-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 14px; }
+    .ft-logo img { height: 42px; width: 42px; object-fit: contain; }
+    .ft-logo .name { font-family: var(--head); font-size: 15px; font-weight: 800; color: #fff; }
+    .ft-logo .sub { font-family: var(--head); font-size: 9px; color: var(--mint); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; }
+    .ft-tagline { font-family: var(--serif); font-style: italic; font-size: 14px; color: rgba(255,255,255,.45); margin-bottom: 16px; }
+    .ft-desc { font-size: 13px; color: rgba(255,255,255,.38); line-height: 1.7; max-width: 280px; }
+    .ft-social { display: flex; gap: 10px; margin-top: 22px; }
+    .ft-social a { width: 34px; height: 34px; border-radius: 6px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.45); font-size: 15px; text-decoration: none; transition: all .2s; }
+    .ft-social a:hover { background: var(--green-dim); border-color: var(--green-line); color: var(--mint); }
+    .ft-col h5 { font-family: var(--head); font-size: 10px; font-weight: 700; color: rgba(255,255,255,.85); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 18px; }
+    .ft-col ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .ft-col ul a { font-size: 13px; color: rgba(255,255,255,.42); text-decoration: none; transition: color .2s; }
+    .ft-col ul a:hover { color: var(--mint); }
+    .ft-contact-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 13px; }
+    .ft-contact-icon { color: var(--green); font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+    .ft-contact-item a { font-size: 13px; color: rgba(255,255,255,.42); text-decoration: none; word-break: break-word; transition: color .2s; }
+    .ft-contact-item a:hover { color: var(--mint); }
+    .footer-bottom { padding: 20px 0; display: flex; justify-content: space-between; align-items: center; font-family: var(--head); font-size: 11px; color: rgba(255,255,255,.25); flex-wrap: wrap; gap: 8px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .glance-grid { grid-template-columns: repeat(3, 1fr); }
+      .curriculum-wrap { grid-template-columns: 1fr; }
+      .tab-list { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      .tab-btn { border-bottom: none; border-right: 1px solid var(--border); min-width: 160px; }
+      .tab-btn.active::after { top: auto; bottom: 0; left: 0; right: 0; width: auto; height: 3px; }
+      .tab-panel { padding: 32px 28px; }
+      .steps-row::before { display: none; }
+      .enquire-inner { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .included-layout { grid-template-columns: 1fr; }
+      .markets-grid { grid-template-columns: 1fr 1fr; }
+      .steps-row { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .topics-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 70px; left: 0; right: 0; background: var(--white); border-bottom: 2px solid var(--navy); padding: 20px 6%; gap: 4px; z-index: 199; box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+      .hamburger { display: flex; }
+      .glance-grid { grid-template-columns: repeat(2, 1fr); }
+      .markets-grid { grid-template-columns: 1fr; }
+      .steps-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+    }
+
+    /* ── ICON SIZING (line icons) ── */
+    .glance-icon svg { width: 30px; height: 30px; margin: 0 auto; display: block; color: var(--green); }
+    .tab-btn-icon svg { width: 21px; height: 21px; color: var(--navy); }
+    .tab-btn.active .tab-btn-icon svg { color: var(--green); }
+    .panel-icon-lg svg { width: 28px; height: 28px; color: var(--green); }
+    .inc-icon svg { width: 21px; height: 21px; color: var(--green); }
+    .iv-pill-icon { display: inline-flex; align-items: center; }
+    .iv-pill-icon svg { width: 16px; height: 16px; color: var(--mint); }
+    .market-icon svg { width: 34px; height: 34px; margin: 0 auto; display: block; color: var(--green); }
+    .step-circle svg { width: 30px; height: 30px; color: var(--mint); }
+    .ft-contact-icon { display: inline-flex; align-items: center; }
+    .ft-contact-icon svg { width: 15px; height: 15px; color: var(--green); }
+
+
+    /* ── SECTION QUICK-NAV (sticks below main nav) ── */
+    .course-quicknav { position: sticky; top: 70px; z-index: 150; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 13px 6%; background: rgba(255,255,255,.97); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .course-quicknav a { font-family: var(--head); font-size: 12px; font-weight: 600; color: var(--navy); text-decoration: none; padding: 7px 16px; border-radius: 100px; border: 1px solid var(--border); transition: background .2s, color .2s, border-color .2s; white-space: nowrap; }
+    .course-quicknav a:hover { background: var(--green); color: #fff; border-color: var(--green); }
+    #overview, #curriculum, #included, #markets, #how { scroll-margin-top: 134px; }
+    @media (max-width: 640px) {
+      .course-quicknav { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
+      .course-quicknav::-webkit-scrollbar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-label"><span class="ticker-live-dot"></span>LIVE</div>
+  <div class="ticker-tv">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+     <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
+
+<tv-ticker-tape symbols="BSE:SENSEX,FX_IDC:USDINR,OANDA:EURUSD,OANDA:GBPUSD,OANDA:USDCHF,FX:USDJPY,BITSTAMP:BTCUSD,BINANCE:ETHUSDT,IG:NASDAQ,OANDA:XAUUSD" item-size="compact" theme="dark" show-hover transparent></tv-ticker-tape>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="img/Untitled.png" alt="SRT Logo">
+    <div class="nav-brand">
+      <span class="name">Smart Retail Traders</span>
+      <span class="tagline-nav">Your Guide To Smart Investing</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="course.html" class="active">Our Course</a></li>
+    <li><a href="faqs.html">FAQ's</a></li>
+    <li><a href="contact.html">Contact Us</a></li>
+    <li><a href="https://wa.me/917796377940" class="cta-btn">Enroll Now →</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE BANNER -->
+<div class="page-banner">
+  <div class="banner-inner reveal">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Our Course</span>
+    </div>
+    <h1>The <span>SRT Course</span> — Built for Real Markets</h1>
+    <p>A comprehensive live cohort programme covering everything from foundational analysis to advanced institutional trading concepts — designed for every level of retail trader.</p>
+  </div>
+</div>
+
+
+
+
+<!-- SECTION QUICK-NAV -->
+<div class="course-quicknav" role="navigation" aria-label="Course sections">
+  <a href="#overview">Overview</a>
+  <a href="#curriculum">Curriculum</a>
+  <a href="#included">What's Included</a>
+  <a href="#markets">Markets</a>
+  <a href="#how">How to Join</a>
+</div>
+
+<!-- ═══ AT A GLANCE ═══ -->
+<section class="section" id="overview">
+  <div style="text-align:center; margin-bottom: 44px;" class="reveal">
+    <div class="eyebrow eyebrow-steel">Course At a Glance</div>
+    <h2 class="h2" style="max-width:100%;">Everything you need to <span class="accent">know upfront</span></h2>
+  </div>
+  <div class="glance-grid">
+    <div class="glance-card reveal"><span class="glance-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><div class="glance-label">Format</div><div class="glance-value">Live Online Cohort</div></div>
+    <div class="glance-card reveal reveal-delay-1"><span class="glance-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span><div class="glance-label">Duration</div><div class="glance-value">4 – 8 Weeks</div></div>
+    <div class="glance-card reveal reveal-delay-2"><span class="glance-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="8"/><line x1="18" y1="20" x2="18" y2="4"/></svg></span><div class="glance-label">Level</div><div class="glance-value">All Levels Welcome</div></div>
+    <div class="glance-card reveal reveal-delay-3"><span class="glance-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><div class="glance-label">Markets</div><div class="glance-value">6 Markets Covered</div></div>
+    <div class="glance-card reveal reveal-delay-1"><span class="glance-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18.178 8c-3.418 0-4.764 4-6.178 4s-2.76-4-6.178-4C3.642 8 2 9.79 2 12s1.642 4 3.822 4c3.418 0 4.764-4 6.178-4s2.76 4 6.178 4C20.358 16 22 14.21 22 12s-1.642-4-3.822-4z"/></svg></span><div class="glance-label">Recording Access</div><div class="glance-value">Lifetime — All Sessions</div></div>
+    <div class="glance-card reveal reveal-delay-2"><span class="glance-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span><div class="glance-label">Pricing</div><div class="glance-value">Enquire via WhatsApp</div></div>
+  </div>
+</section>
+
+<!-- ═══ CURRICULUM ═══ -->
+<section class="section section-gray" id="curriculum">
+  <div class="reveal" style="margin-bottom: 44px;">
+    <div class="eyebrow eyebrow-green">Full Curriculum</div>
+    <h2 class="h2">6 modules. <span class="accent">Everything that matters.</span></h2>
+    <p class="lead" style="margin-bottom:0">Click each module to explore the topics covered in detail. Every module is taught live with real market examples.</p>
+  </div>
+
+  <div class="curriculum-wrap reveal">
+    <!-- TAB BUTTONS -->
+    <div class="tab-list">
+      <button class="tab-btn active" onclick="switchTab(0)">
+        <div class="tab-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="11" y2="9"/></svg></div>
+        <div class="tab-btn-text">
+          <div class="tab-btn-num">Module 01</div>
+          <div class="tab-btn-title">Fundamental Analysis</div>
+        </div>
+        <div class="tab-btn-arrow">›</div>
+      </button>
+      <button class="tab-btn" onclick="switchTab(1)">
+        <div class="tab-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="3" x2="7" y2="21"/><rect x="4.5" y="7" width="5" height="8" rx="1"/><line x1="17" y1="3" x2="17" y2="21"/><rect x="14.5" y="10" width="5" height="7" rx="1"/></svg></div>
+        <div class="tab-btn-text">
+          <div class="tab-btn-num">Module 02</div>
+          <div class="tab-btn-title">Technical Analysis</div>
+        </div>
+        <div class="tab-btn-arrow">›</div>
+      </button>
+      <button class="tab-btn" onclick="switchTab(2)">
+        <div class="tab-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+        <div class="tab-btn-text">
+          <div class="tab-btn-num">Module 03</div>
+          <div class="tab-btn-title">SMC &amp; ICT Concepts</div>
+        </div>
+        <div class="tab-btn-arrow">›</div>
+      </button>
+      <button class="tab-btn" onclick="switchTab(3)">
+        <div class="tab-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="tab-btn-text">
+          <div class="tab-btn-num">Module 04</div>
+          <div class="tab-btn-title">Specialised Trading</div>
+        </div>
+        <div class="tab-btn-arrow">›</div>
+      </button>
+      <button class="tab-btn" onclick="switchTab(4)">
+        <div class="tab-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="tab-btn-text">
+          <div class="tab-btn-num">Module 05</div>
+          <div class="tab-btn-title">Risk Management</div>
+        </div>
+        <div class="tab-btn-arrow">›</div>
+      </button>
+      <button class="tab-btn" onclick="switchTab(5)">
+        <div class="tab-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 0 7 4.5v.5a2.5 2.5 0 0 0-1.7 4.32A2.5 2.5 0 0 0 6 14.5a2.5 2.5 0 0 0 1 2V19a2 2 0 0 0 4 0V4.5A2.5 2.5 0 0 0 9.5 2z"/><path d="M14.5 2A2.5 2.5 0 0 1 17 4.5v.5a2.5 2.5 0 0 1 1.7 4.32A2.5 2.5 0 0 1 18 14.5a2.5 2.5 0 0 1-1 2V19a2 2 0 0 1-4 0V4.5A2.5 2.5 0 0 1 14.5 2z"/></svg></div>
+        <div class="tab-btn-text">
+          <div class="tab-btn-num">Module 06</div>
+          <div class="tab-btn-title">Market Psychology</div>
+        </div>
+        <div class="tab-btn-arrow">›</div>
+      </button>
+    </div>
+
+    <!-- TAB PANELS -->
+    <div class="tab-panels">
+      <!-- Panel 1 -->
+      <div class="tab-panel active">
+        <div class="panel-header">
+          <div class="panel-icon-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="11" y2="9"/></svg></div>
+          <div class="panel-meta">
+            <div class="panel-num">Module 01</div>
+            <div class="panel-title">Fundamental Analysis</div>
+            <div class="panel-desc">Learn to evaluate the real value of a company — understanding what drives stock prices beyond charts and patterns.</div>
+          </div>
+          <div class="panel-badge">Core Module</div>
+        </div>
+        <div class="topics-label">Topics Covered</div>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Reading P&amp;L, Balance Sheet &amp; Cash Flow Statements</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Key Financial Ratios — PE, PB, ROE, EPS, Debt/Equity</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Company Valuation Methods &amp; Intrinsic Value</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Earnings Reports, Quarterly Results &amp; Guidance</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Sector &amp; Industry Analysis — Identifying Leaders</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Macro-Economic Indicators — RBI Policy, Inflation, GDP</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Management Quality &amp; Promoter Holdings Analysis</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Identifying Undervalued Stocks with Growth Potential</div></div>
+        </div>
+      </div>
+
+      <!-- Panel 2 -->
+      <div class="tab-panel">
+        <div class="panel-header">
+          <div class="panel-icon-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="3" x2="7" y2="21"/><rect x="4.5" y="7" width="5" height="8" rx="1"/><line x1="17" y1="3" x2="17" y2="21"/><rect x="14.5" y="10" width="5" height="7" rx="1"/></svg></div>
+          <div class="panel-meta">
+            <div class="panel-num">Module 02</div>
+            <div class="panel-title">Technical Analysis</div>
+            <div class="panel-desc">Master the art of reading price action — charts, patterns, and indicators that help you time the market with precision.</div>
+          </div>
+          <div class="panel-badge">Core Module</div>
+        </div>
+        <div class="topics-label">Topics Covered</div>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Candlestick Patterns — Doji, Hammer, Engulfing, Shooting Star</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Chart Patterns — H&amp;S, Triangles, Flags, Wedges, Channels</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Support, Resistance &amp; Key Price Levels</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Moving Averages — SMA, EMA, Golden &amp; Death Cross</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Key Indicators — RSI, MACD, Bollinger Bands, Volume</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Trend Analysis — Identifying &amp; Trading with the Trend</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Multi-Timeframe Analysis for Entry &amp; Exit Precision</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Volume Profile &amp; Order Flow Basics</div></div>
+        </div>
+      </div>
+
+      <!-- Panel 3 -->
+      <div class="tab-panel">
+        <div class="panel-header">
+          <div class="panel-icon-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+          <div class="panel-meta">
+            <div class="panel-num">Module 03</div>
+            <div class="panel-title">SMC &amp; ICT Concepts</div>
+            <div class="panel-desc">Decode how institutions move the market — and learn to trade alongside them using Smart Money Concepts and ICT methodology.</div>
+          </div>
+          <div class="panel-badge">Advanced Module</div>
+        </div>
+        <div class="topics-label">Topics Covered</div>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Market Structure — HH, HL, LH, LL &amp; Break of Structure</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Order Blocks &amp; Breaker Blocks — Institutional Entry Zones</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Fair Value Gaps (FVG) &amp; Price Imbalances</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Liquidity Pools, Buy-Side &amp; Sell-Side Liquidity</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Stop Hunts &amp; Liquidity Sweeps — Reading Manipulation</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">ICT Kill Zones — London Open, New York Open Sessions</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Optimal Trade Entry (OTE) &amp; Fibonacci Retracements</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Accumulation, Distribution &amp; Smart Money Cycles</div></div>
+        </div>
+      </div>
+
+      <!-- Panel 4 -->
+      <div class="tab-panel">
+        <div class="panel-header">
+          <div class="panel-icon-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="panel-meta">
+            <div class="panel-num">Module 04</div>
+            <div class="panel-title">Specialised Trading</div>
+            <div class="panel-desc">Apply your skills across six markets — each with its own structure, rules, and opportunities. Understand what makes each one unique.</div>
+          </div>
+          <div class="panel-badge">Specialisation</div>
+        </div>
+        <div class="topics-label">Topics Covered</div>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Indian Equity — NSE &amp; BSE, Cash Market Mechanics</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Futures &amp; Options — Contracts, Greeks, Strategies</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">F&amp;O — Hedging, Covered Calls, Protective Puts</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Forex — Currency Pairs, Pips, Sessions &amp; Spreads</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Forex — Applying SMC &amp; Technical Strategies to FX</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Cryptocurrency — Market Structure, Exchanges, Wallets</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Crypto — On-Chain Analysis &amp; Market Cycles</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Cross-Market Correlation &amp; Portfolio Diversification</div></div>
+        </div>
+      </div>
+
+      <!-- Panel 5 -->
+      <div class="tab-panel">
+        <div class="panel-header">
+          <div class="panel-icon-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="panel-meta">
+            <div class="panel-num">Module 05</div>
+            <div class="panel-title">Risk Management</div>
+            <div class="panel-desc">The most important module in the course. Without this, no strategy survives. Learn how professionals protect capital above all else.</div>
+          </div>
+          <div class="panel-badge">Foundation</div>
+        </div>
+        <div class="topics-label">Topics Covered</div>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Position Sizing — How Much to Risk Per Trade</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Stop Loss Strategy — Where to Place &amp; When to Move</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Risk-to-Reward Ratios — Only Taking High-Quality Setups</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Portfolio Construction &amp; Capital Allocation</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Drawdown Management — Surviving Losing Streaks</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">The 1% &amp; 2% Risk Rules — Protecting Your Account</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Trailing Stops &amp; Partial Profit Taking Strategies</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Backtesting Strategies for Risk Validation</div></div>
+        </div>
+      </div>
+
+      <!-- Panel 6 -->
+      <div class="tab-panel">
+        <div class="panel-header">
+          <div class="panel-icon-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 0 7 4.5v.5a2.5 2.5 0 0 0-1.7 4.32A2.5 2.5 0 0 0 6 14.5a2.5 2.5 0 0 0 1 2V19a2 2 0 0 0 4 0V4.5A2.5 2.5 0 0 0 9.5 2z"/><path d="M14.5 2A2.5 2.5 0 0 1 17 4.5v.5a2.5 2.5 0 0 1 1.7 4.32A2.5 2.5 0 0 1 18 14.5a2.5 2.5 0 0 1-1 2V19a2 2 0 0 1-4 0V4.5A2.5 2.5 0 0 1 14.5 2z"/></svg></div>
+          <div class="panel-meta">
+            <div class="panel-num">Module 06</div>
+            <div class="panel-title">Market Psychology</div>
+            <div class="panel-desc">The edge that separates profitable traders from the rest isn't strategy — it's mindset. Build the mental framework for consistent, disciplined trading.</div>
+          </div>
+          <div class="panel-badge">Foundation</div>
+        </div>
+        <div class="topics-label">Topics Covered</div>
+        <div class="topics-grid">
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Understanding Fear, Greed &amp; FOMO in Trading</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Cognitive Biases — Confirmation, Anchoring, Recency</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Building a Personal Trading Plan &amp; Ruleset</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Revenge Trading — Identifying &amp; Stopping the Pattern</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Trade Journaling — Review Process for Continuous Growth</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Managing Emotions During Winning &amp; Losing Streaks</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Developing Process-Orientation Over Outcome-Focus</div></div>
+          <div class="topic-item"><div class="topic-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="topic-text">Building Consistency — Daily Routines of Profitable Traders</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT'S INCLUDED ═══ -->
+<section class="section" id="included">
+  <div class="included-layout">
+    <div>
+      <div class="reveal">
+        <div class="eyebrow eyebrow-green">What's Included</div>
+        <h2 class="h2">More than just <span class="accent">live sessions</span></h2>
+        <p class="lead" style="margin-bottom: 36px;">Every student gets a complete learning package — from the first session to the last trade they ever make.</p>
+      </div>
+      <div class="included-list">
+        <div class="included-item reveal"><div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div><div class="inc-body"><h4>Live Cohort Sessions</h4><p>Scheduled live sessions taught directly by Sagar Umaria with real-time market analysis and interactive Q&A.</p></div></div>
+        <div class="included-item reveal"><div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18.178 8c-3.418 0-4.764 4-6.178 4s-2.76-4-6.178-4C3.642 8 2 9.79 2 12s1.642 4 3.822 4c3.418 0 4.764-4 6.178-4s2.76 4 6.178 4C20.358 16 22 14.21 22 12s-1.642-4-3.822-4z"/></svg></div><div class="inc-body"><h4>Lifetime Recording Access</h4><p>Every session is recorded and saved to your account — accessible forever, so you never miss anything or forget a concept.</p></div></div>
+        <div class="included-item reveal"><div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="inc-body"><h4>Comprehensive Study Materials</h4><p>Curated PDFs, notes, and reference sheets for every module — your trading reference library, built during the course.</p></div></div>
+        <div class="included-item reveal"><div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="inc-body"><h4>Personal Doubt Clearing</h4><p>Direct access to Sagar for concept clarification. No question goes unanswered — personal support throughout the batch.</p></div></div>
+        <div class="included-item reveal"><div class="inc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="inc-body"><h4>Active Telegram Community</h4><p>Join the SRT Telegram — a live community of traders sharing setups, ideas, and analysis every day, long after the course ends.</p></div></div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="included-visual">
+        <div class="iv-big">1000+</div>
+        <div class="iv-sub">students who've gone through this programme</div>
+        <div class="iv-pills">
+          <div class="iv-pill"><span class="iv-pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> 6 Comprehensive Modules</div>
+          <div class="iv-pill"><span class="iv-pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> 6 Markets Covered</div>
+          <div class="iv-pill"><span class="iv-pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18.178 8c-3.418 0-4.764 4-6.178 4s-2.76-4-6.178-4C3.642 8 2 9.79 2 12s1.642 4 3.822 4c3.418 0 4.764-4 6.178-4s2.76 4 6.178 4C20.358 16 22 14.21 22 12s-1.642-4-3.822-4z"/></svg></span> Lifetime Recording Access</div>
+          <div class="iv-pill"><span class="iv-pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Personal Support & Doubt Clearing</div>
+          <div class="iv-pill"><span class="iv-pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> Study Materials & PDF Notes</div>
+          <div class="iv-pill"><span class="iv-pill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Telegram Community Access</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MARKETS COVERED ═══ -->
+<section class="section section-gray" id="markets">
+  <div style="text-align:center; margin-bottom: 52px;" class="reveal">
+    <div class="eyebrow eyebrow-steel">Markets We Cover</div>
+    <h2 class="h2" style="max-width:100%;">6 markets. <span class="accent">One cohesive strategy.</span></h2>
+    <p class="lead" style="max-width: 580px; margin: 0 auto;">The same analytical frameworks taught across all six markets — so you're not starting from scratch each time you explore a new one.</p>
+  </div>
+  <div class="markets-grid">
+    <div class="market-card reveal"><span class="market-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><h3>Indian Equity</h3><p>NSE &amp; BSE listed stocks. Learn to analyse, select, and trade Indian shares — from blue chips to mid-cap opportunities.</p></div>
+    <div class="market-card reveal reveal-delay-1"><span class="market-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span><h3>Futures &amp; Options (F&amp;O)</h3><p>Derivatives trading — understand contracts, Greeks, hedging strategies and leverage in the Indian derivatives market.</p></div>
+    <div class="market-card reveal reveal-delay-2"><span class="market-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span><h3>Forex Trading</h3><p>Global currency markets — major pairs, sessions, pip mechanics, and applying SMC concepts to 24-hour FX trading.</p></div>
+    <div class="market-card reveal"><span class="market-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.5 7.5h4.2a2 2 0 0 1 0 4H9.5zM9.5 11.5h4.5a2 2 0 0 1 0 4H9.5zM9.5 7.5v8M11.2 6v1.5M11.2 15.5V17M13 6v1.5M13 15.5V17"/></svg></span><h3>Cryptocurrency</h3><p>Bitcoin, Ethereum and altcoins. Market cycles, on-chain data, exchange mechanics and applying technical frameworks to crypto.</p></div>
+    <div class="market-card reveal reveal-delay-1"><span class="market-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span><h3>SMC Framework</h3><p>Smart Money Concepts applied across all markets — one unified framework that works whether you're trading Nifty or Bitcoin.</p></div>
+    <div class="market-card reveal reveal-delay-2"><span class="market-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/><circle cx="12" cy="12" r="3"/></svg></span><h3>ICT Methodology</h3><p>Inner Circle Trader concepts — kill zones, order flow, optimal trade entry points and precision timing across all markets.</p></div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section class="section" id="how">
+  <div style="text-align:center; margin-bottom: 60px;" class="reveal">
+    <div class="eyebrow eyebrow-mint">Enrollment Process</div>
+    <h2 class="h2" style="max-width:100%;">How to <span class="accent">get started</span></h2>
+    <p class="lead" style="max-width: 520px; margin: 0 auto;">Four simple steps from curious visitor to active SRT student. The whole process takes less than 10 minutes.</p>
+  </div>
+  <div class="steps-row reveal">
+    <div class="step">
+      <div style="position:relative; display:inline-block;">
+        <div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z"/><line x1="13" y1="5" x2="13" y2="19"/></svg></div>
+        <div class="step-num">01</div>
+      </div>
+      <h3>Register for the Webinar</h3>
+      <p>Pay ₹99 to register for the next monthly live webinar — your first look at Sagar's teaching style and curriculum.</p>
+      <div class="step-tag">₹99 entry</div>
+    </div>
+    <div class="step">
+      <div style="position:relative; display:inline-block;">
+        <div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <div class="step-num">02</div>
+      </div>
+      <h3>Attend the Live Webinar</h3>
+      <p>Join the 75-minute live session. Learn something real. Ask questions. Get a feel for how the full course is delivered.</p>
+      <div class="step-tag">Live on Zoom</div>
+    </div>
+    <div class="step">
+      <div style="position:relative; display:inline-block;">
+        <div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="step-num">03</div>
+      </div>
+      <h3>Enquire &amp; Enroll</h3>
+      <p>Ready to join? Reach out on WhatsApp — get batch details, fees, schedule, and enroll for the upcoming cohort.</p>
+      <div class="step-tag">Via WhatsApp</div>
+    </div>
+    <div class="step">
+      <div style="position:relative; display:inline-block;">
+        <div class="step-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        <div class="step-num">04</div>
+      </div>
+      <h3>Learn &amp; Trade</h3>
+      <p>Join the live cohort, access all materials, engage the community, and start applying what you learn to real markets.</p>
+      <div class="step-tag">Start trading</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ENQUIRE CTA ═══ -->
+<div class="enquire-section">
+  <div class="enquire-inner">
+    <div class="enquire-text reveal">
+      <div class="eyebrow eyebrow-white">Ready to Enroll?</div>
+      <h2>Get the full course details <span class="accent">directly from us.</span></h2>
+      <p>Pricing, batch schedule, seat availability, and everything else you need — all shared personally via WhatsApp within minutes. No bots, no automated replies.</p>
+    </div>
+    <div class="enquire-card reveal">
+      <div class="eq-label">Next Step</div>
+      <div class="eq-headline">Enquire About the Course</div>
+      <div class="eq-note">Pricing shared directly via WhatsApp</div>
+      <a href="https://wa.me/917796377940" class="btn btn-green">Chat on WhatsApp →</a>
+      <a href="course.html#webinar" class="btn btn-ghost-white">Register for ₹99 Webinar</a>
+      <div class="eq-sub"><div class="eq-dot"></div> Limited seats per batch</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index.html" class="ft-logo">
+
+        <div><div class="name">Smart Retail Traders</div><div class="sub">Your Guide To Smart Investing</div></div>
+      </a>
+      <div class="ft-tagline">"Empowering traders, unlocking opportunities."</div>
+      <p class="ft-desc">Simplifying the complexities of stock and forex markets through structured, practical education — for every type of retail trader in India.</p>
+      <div class="ft-social">
+        <a href="https://www.instagram.com/srt.community/" title="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://t.me/smartretailtraderscommunity" title="Telegram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </a>
+        <a href="https://wa.me/917796377940" title="WhatsApp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <h5>Pages</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="course.html">Our Course</a></li>
+        <li><a href="faqs.html">FAQ's</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Markets We Cover</h5>
+      <ul>
+        <li><a href="course.html">Indian Equity</a></li>
+        <li><a href="course.html">Futures &amp; Options</a></li>
+        <li><a href="course.html">Forex Trading</a></li>
+        <li><a href="course.html">Cryptocurrency</a></li>
+        <li><a href="course.html">SMC &amp; ICT Concepts</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Contact</h5>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><a href="https://wa.me/917796377940">+91 77963 77940</a></div>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg></span><a href="mailto:smartretailtraderscommunity@gmail.com">smartretailtraderscommunity@gmail.com</a></div>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5 2.5 12.5l5.5 2 2 6 3-4 5 4 3-16z"/><path d="m8 14.5 9-7"/></svg></span><a href="https://t.me/smartretailtraderscommunity">Telegram Community</a></div>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></span><a href="https://www.instagram.com/srt.community/">@srt.community</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Smart Retail Traders. All rights reserved.</span>
+    <span>Your Guide To Smart Investing</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Curriculum tabs
+  function switchTab(idx) {
+    document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+    document.querySelectorAll('.tab-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+  }
+
+  // Hamburger
+  const ham = document.getElementById('hamburger');
+  const nl  = document.getElementById('navLinks');
+  ham.addEventListener('click', () => nl.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if (!e.target.closest('nav')) nl.classList.remove('open');
+  });
+</script>
+</body>
+</html>

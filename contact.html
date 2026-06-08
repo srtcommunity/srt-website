@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Contact Us | Smart Retail Traders</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Open+Sans:wght@300;400;500;600&family=Merriweather:ital,wght@0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+
+   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:       #002244;
+      --navy-dk:    #001833;
+      --navy-lt:    #003366;
+      --green:      #00796B;
+      --green-lt:   #009688;
+      --green-dim:  rgba(0,121,107,.1);
+      --green-line: rgba(0,121,107,.3);
+      --steel:      #79A1B8;
+      --steel-dim:  rgba(121,161,184,.12);
+      --mint:       #A9DFBF;
+      --mint-dim:   rgba(169,223,191,.18);
+      --white:      #FAFAFA;
+      --gray-bg:    #F0F4F8;
+      --border:     rgba(0,34,68,.09);
+      --text:       #002244;
+      --body:       #2D3F52;
+      --muted:      #6B84A0;
+      --head:       'Montserrat', sans-serif;
+      --sans:       'Open Sans', sans-serif;
+      --serif:      'Merriweather', Georgia, serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--body); font-family: var(--sans); overflow-x: hidden; }
+
+    /* ── TICKER ── */
+    .ticker-bar { background: var(--navy-dk); min-height: 46px; display: flex; align-items: stretch; overflow: hidden; }
+    .ticker-label { background: var(--green); color: #fff; font-family: var(--head); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 0 20px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ticker-live-dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1.8s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.8)} }
+    .ticker-tv { flex: 1; min-width: 0; display: flex; align-items: center; }
+    .ticker-tv .tradingview-widget-container,
+    .ticker-tv .tradingview-widget-container__widget { width: 100%; }
+
+    /* ── NAV ── */
+    nav { position: sticky; top: 0; z-index: 200; background: rgba(250,250,250,.97); backdrop-filter: blur(12px); border-bottom: 2px solid var(--navy); padding: 0 6%; height: 70px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo img { height: 46px; width: 46px; object-fit: contain; }
+    .nav-brand { display: flex; flex-direction: column; line-height: 1.15; }
+    .nav-brand .name { font-family: var(--head); font-size: 14px; font-weight: 800; color: var(--navy); letter-spacing: -.01em; }
+    .nav-brand .tagline-nav { font-family: var(--head); font-size: 9px; font-weight: 500; color: var(--green); letter-spacing: .12em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
+    .nav-links a { font-family: var(--head); font-size: 13px; font-weight: 500; color: var(--body); text-decoration: none; padding: 8px 14px; border-radius: 4px; transition: color .2s, background .2s; }
+    .nav-links a:hover { color: var(--green); background: var(--green-dim); }
+    .nav-links a.active { color: var(--green); font-weight: 700; }
+    .nav-links .cta-btn { background: var(--green); color: #fff !important; padding: 9px 20px; border-radius: 4px; font-weight: 700 !important; margin-left: 8px; transition: background .2s, transform .15s !important; box-shadow: 0 2px 12px rgba(0,121,107,.25); }
+    .nav-links .cta-btn:hover { background: var(--green-lt) !important; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy); border-radius: 2px; }
+
+    .page-banner{background:var(--navy);padding:64px 6% 72px;position:relative;overflow:hidden;}
+    .page-banner::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(121,161,184,.05) 0px,transparent 0px),linear-gradient(90deg,rgba(121,161,184,.05) 0px,transparent 0px);background-size:52px 52px;}
+    .page-banner::after{content:'';position:absolute;right:-60px;top:-60px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(0,121,107,.14) 0%,transparent 70%);}
+    .banner-inner{position:relative;z-index:2;}
+    .breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px;}
+    .breadcrumb a{font-family:var(--head);font-size:12px;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;}
+    .breadcrumb a:hover{color:var(--mint);}
+    .breadcrumb-sep{color:rgba(255,255,255,.25);font-size:11px;}
+    .breadcrumb-current{font-family:var(--head);font-size:12px;color:var(--mint);font-weight:600;}
+    .page-banner h1{font-family:var(--head);font-size:clamp(36px,5vw,60px);font-weight:800;color:#fff;letter-spacing:-.025em;margin-bottom:14px;line-height:1.1;}
+    .page-banner h1 span{color:var(--mint);}
+    .page-banner p{font-size:17px;color:rgba(255,255,255,.6);max-width:580px;line-height:1.75;font-weight:300;}
+    .section{padding:88px 6%;} .section-gray{background:var(--gray-bg);} .section-navy{background:var(--navy);}
+    .eyebrow{display:inline-block;font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:3px;margin-bottom:14px;}
+    .eyebrow-green{background:var(--green-dim);color:var(--green);border:1px solid var(--green-line);}
+    .eyebrow-steel{background:var(--steel-dim);color:var(--steel);border:1px solid rgba(121,161,184,.3);}
+    .eyebrow-white{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15);}
+    .eyebrow-mint{background:var(--mint-dim);color:#1a7a52;border:1px solid rgba(169,223,191,.4);}
+    .h2{font-family:var(--head);font-size:clamp(28px,3.5vw,44px);font-weight:800;line-height:1.15;color:var(--navy);margin-bottom:14px;letter-spacing:-.02em;}
+    .h2 .accent{color:var(--green);} .h2-white{color:#fff;}
+    .lead{font-size:17px;color:var(--muted);line-height:1.75;max-width:580px;font-weight:300;margin-bottom:52px;}
+    .btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--head);font-weight:700;font-size:13px;letter-spacing:.04em;padding:13px 26px;border-radius:4px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;}
+    .btn-green{background:var(--green);color:#fff;box-shadow:0 4px 20px rgba(0,121,107,.3);}
+    .btn-green:hover{background:var(--green-lt);transform:translateY(-2px);}
+    .btn-ghost-dark{background:transparent;color:var(--navy);border:1.5px solid var(--border);}
+    .btn-ghost-dark:hover{border-color:var(--green);color:var(--green);transform:translateY(-2px);}
+    .btn-ghost-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3);}
+    .btn-ghost-white:hover{border-color:var(--mint);background:rgba(169,223,191,.08);transform:translateY(-2px);}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease;}
+    .reveal.in{opacity:1;transform:none;}
+    .reveal-delay-1{transition-delay:.1s;} .reveal-delay-2{transition-delay:.2s;} .reveal-delay-3{transition-delay:.3s;}
+    footer{background:var(--navy-dk);border-top:3px solid var(--green);padding:64px 6% 0;}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08);}
+    .ft-logo{display:flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:14px;}
+    .ft-logo img{height:42px;width:42px;object-fit:contain;}
+    .ft-logo .name{font-family:var(--head);font-size:15px;font-weight:800;color:#fff;}
+    .ft-logo .sub{font-family:var(--head);font-size:9px;color:var(--mint);letter-spacing:.1em;text-transform:uppercase;margin-top:2px;}
+    .ft-tagline{font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(255,255,255,.45);margin-bottom:16px;}
+    .ft-desc{font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;max-width:280px;}
+    .ft-social{display:flex;gap:10px;margin-top:22px;}
+    .ft-social a{width:34px;height:34px;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.45);font-size:15px;text-decoration:none;transition:all .2s;}
+    .ft-social a:hover{background:var(--green-dim);border-color:var(--green-line);color:var(--mint);}
+    .ft-col h5{font-family:var(--head);font-size:10px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.12em;text-transform:uppercase;margin-bottom:18px;}
+    .ft-col ul{list-style:none;display:flex;flex-direction:column;gap:11px;}
+    .ft-col ul a{font-size:13px;color:rgba(255,255,255,.42);text-decoration:none;transition:color .2s;}
+    .ft-col ul a:hover{color:var(--mint);}
+    .ft-contact-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:13px;}
+    .ft-contact-icon{color:var(--green);font-size:14px;margin-top:2px;flex-shrink:0;}
+    .ft-contact-item a{font-size:13px;color:rgba(255,255,255,.42);text-decoration:none;word-break:break-word;transition:color .2s;}
+    .ft-contact-item a:hover{color:var(--mint);}
+    .footer-bottom{padding:20px 0;display:flex;justify-content:space-between;align-items:center;font-family:var(--head);font-size:11px;color:rgba(255,255,255,.25);flex-wrap:wrap;gap:8px;}
+    @media(max-width:640px){
+      .nav-links{display:none;}
+      .nav-links.open{display:flex;flex-direction:column;position:fixed;top:70px;left:0;right:0;background:var(--white);border-bottom:2px solid var(--navy);padding:20px 6%;gap:4px;z-index:199;box-shadow:0 8px 24px rgba(0,0,0,.1);}
+      .hamburger{display:flex;}
+      .footer-top{grid-template-columns:1fr;}
+    }
+    @media(max-width:1024px){.footer-top{grid-template-columns:1fr 1fr;gap:32px;}}
+
+
+    /* ── CONTACT PAGE ── */
+    .contact-layout { display:grid; grid-template-columns:1fr 440px; gap:64px; align-items:start; }
+
+    /* Form */
+    .form-card { background:#fff; border:1px solid var(--border); border-radius:16px; padding:48px 44px; box-shadow:0 4px 24px rgba(0,34,68,.06); }
+    .form-title { font-family:var(--head); font-size:24px; font-weight:800; color:var(--navy); margin-bottom:6px; letter-spacing:-.01em; }
+    .form-sub { font-size:15px; color:var(--muted); margin-bottom:36px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-group { margin-bottom:20px; }
+    .form-label { font-family:var(--head); font-size:12px; font-weight:700; color:var(--navy); letter-spacing:.04em; display:block; margin-bottom:8px; }
+    .form-input, .form-select, .form-textarea {
+      width:100%; padding:13px 16px; border:1.5px solid var(--border);
+      border-radius:6px; font-family:var(--sans); font-size:15px; color:var(--navy);
+      background:var(--white); outline:none; transition:border-color .2s, box-shadow .2s;
+      appearance:none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color:var(--green); box-shadow:0 0 0 3px var(--green-dim);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color:var(--muted); }
+    .form-textarea { height:140px; resize:vertical; }
+    .select-wrap { position:relative; }
+    .select-wrap::after { content:'▾'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:14px; pointer-events:none; }
+    .form-submit {
+      width:100%; padding:15px; background:var(--green); color:#fff;
+      border:none; border-radius:6px; font-family:var(--head); font-size:14px;
+      font-weight:700; letter-spacing:.04em; cursor:pointer;
+      transition:background .2s, transform .15s; box-shadow:0 4px 20px rgba(0,121,107,.3);
+    }
+    .form-submit:hover { background:var(--green-lt); transform:translateY(-2px); }
+    .form-note { font-size:12px; color:var(--muted); text-align:center; margin-top:14px; }
+    .form-success { display:none; text-align:center; padding:40px 20px; }
+    .success-icon { font-size:56px; display:block; margin-bottom:16px; }
+    .success-title { font-family:var(--head); font-size:22px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+    .success-sub { font-size:15px; color:var(--muted); }
+
+    /* Contact info sidebar */
+    .contact-sidebar { display:flex; flex-direction:column; gap:16px; }
+    .contact-card {
+      background:#fff; border:1px solid var(--border); border-radius:12px;
+      padding:24px; display:flex; align-items:flex-start; gap:16px;
+      transition:box-shadow .25s, transform .25s, border-color .25s;
+    }
+    .contact-card:hover { box-shadow:0 8px 24px rgba(0,34,68,.1); transform:translateX(4px); border-color:var(--green-line); }
+    .cc-icon-wrap {
+      width:48px; height:48px; border-radius:10px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; font-size:22px;
+    }
+    .cc-icon-green { background:var(--green-dim); border:1px solid var(--green-line); }
+    .cc-icon-steel { background:var(--steel-dim); border:1px solid rgba(121,161,184,.25); }
+    .cc-icon-mint { background:var(--mint-dim); border:1px solid rgba(169,223,191,.35); }
+    .cc-body { flex:1; }
+    .cc-label { font-family:var(--head); font-size:10px; font-weight:700; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:5px; }
+    .cc-value { font-family:var(--head); font-size:15px; font-weight:700; color:var(--navy); margin-bottom:3px; }
+    .cc-sub { font-size:13px; color:var(--muted); }
+    .cc-link { text-decoration:none; }
+    .cc-link .cc-value { color:var(--green); transition:color .2s; }
+    .cc-link:hover .cc-value { color:var(--green-lt); }
+    .cc-action { display:inline-flex; align-items:center; gap:6px; margin-top:10px; font-family:var(--head); font-size:12px; font-weight:700; color:var(--green); text-decoration:none; letter-spacing:.03em; }
+    .cc-action:hover { text-decoration:underline; }
+
+    /* Response time */
+    .response-card {
+      background:var(--navy); border-radius:12px; padding:28px 24px;
+      display:flex; align-items:center; gap:16px;
+    }
+    .rt-icon { font-size:36px; flex-shrink:0; }
+    .rt-title { font-family:var(--head); font-size:15px; font-weight:700; color:#fff; margin-bottom:4px; }
+    .rt-sub { font-size:13px; color:rgba(255,255,255,.55); line-height:1.5; }
+
+    /* Social strip */
+    .social-strip { background:var(--gray-bg); padding:56px 6%; text-align:center; }
+    .social-strip h3 { font-family:var(--head); font-size:clamp(22px,2.5vw,32px); font-weight:800; color:var(--navy); margin-bottom:10px; letter-spacing:-.01em; }
+    .social-strip p { font-size:16px; color:var(--muted); margin-bottom:36px; }
+    .social-cards { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+    .social-card {
+      display:flex; align-items:center; gap:14px; background:#fff;
+      border:1.5px solid var(--border); border-radius:10px; padding:18px 24px;
+      text-decoration:none; transition:all .25s; min-width:200px;
+    }
+    .social-card:hover { border-color:var(--green-line); box-shadow:0 6px 20px rgba(0,34,68,.1); transform:translateY(-3px); }
+    .sc-icon { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+    .sc-ig { background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .sc-tg { background:#229ED9; }
+    .sc-wa { background:#25D366; }
+    .sc-yt { background:#FF0000; }
+    .sc-name { font-family:var(--head); font-size:14px; font-weight:700; color:var(--navy); }
+    .sc-handle { font-size:12px; color:var(--muted); margin-top:1px; }
+
+    /* WhatsApp CTA banner */
+    .wa-banner {
+      background:linear-gradient(135deg, #002244 0%, #003366 100%);
+      padding:72px 6%; display:grid; grid-template-columns:1fr auto; gap:48px; align-items:center;
+      position:relative; overflow:hidden;
+    }
+    .wa-banner::before { content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(121,161,184,.05) 0px,transparent 0px),linear-gradient(90deg,rgba(121,161,184,.05) 0px,transparent 0px); background-size:52px 52px; }
+    .wa-content { position:relative; z-index:2; }
+    .wa-content h2 { font-family:var(--head); font-size:clamp(24px,3vw,40px); font-weight:800; color:#fff; margin-bottom:10px; letter-spacing:-.02em; }
+    .wa-content h2 span { color:var(--mint); }
+    .wa-content p { font-size:16px; color:rgba(255,255,255,.58); line-height:1.7; max-width:480px; }
+    .wa-action { position:relative; z-index:2; text-align:center; flex-shrink:0; }
+    .wa-number { font-family:var(--head); font-size:22px; font-weight:800; color:#fff; margin-bottom:16px; }
+    .wa-number small { font-size:12px; color:rgba(255,255,255,.45); display:block; margin-bottom:4px; font-weight:400; letter-spacing:.06em; text-transform:uppercase; }
+    .btn-wa { display:inline-flex; align-items:center; gap:10px; background:#25D366; color:#fff; font-family:var(--head); font-weight:700; font-size:14px; padding:14px 28px; border-radius:6px; text-decoration:none; transition:all .2s; box-shadow:0 4px 20px rgba(37,211,102,.3); }
+    .btn-wa:hover { background:#20C55E; transform:translateY(-2px); box-shadow:0 8px 28px rgba(37,211,102,.4); }
+
+    @media(max-width:960px){
+      .contact-layout{ grid-template-columns:1fr; }
+      .wa-banner{ grid-template-columns:1fr; }
+      .form-row{ grid-template-columns:1fr; }
+    }
+
+    /* ── ICON SIZING (line icons) ── */
+    .success-icon svg { width:54px; height:54px; color:var(--green); display:block; margin:0 auto; }
+    .rt-icon svg { width:34px; height:34px; color:var(--green); }
+    .cc-icon-wrap svg { width:24px; height:24px; color:var(--navy); }
+    .cc-icon-green svg { color:var(--green); }
+    .cc-icon-steel svg { color:#5A7A8C; }
+    .cc-icon-mint svg { color:var(--green); }
+    .sc-icon svg { width:22px; height:22px; color:#fff; }
+    .ft-contact-icon { display:inline-flex; align-items:center; }
+    .ft-contact-icon svg { width:15px; height:15px; color:var(--green); }
+  </style>
+</head>
+<body>
+<div class="ticker-bar">
+  <div class="ticker-label"><span class="ticker-live-dot"></span>LIVE</div>
+  <div class="ticker-tv">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+     <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
+
+<tv-ticker-tape symbols="BSE:SENSEX,FX_IDC:USDINR,OANDA:EURUSD,OANDA:GBPUSD,OANDA:USDCHF,FX:USDJPY,BITSTAMP:BTCUSD,BINANCE:ETHUSDT,IG:NASDAQ,OANDA:XAUUSD" item-size="compact" theme="dark" show-hover transparent></tv-ticker-tape>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="img/Untitled.png" alt="SRT Logo">
+    <div class="nav-brand">
+      <span class="name">Smart Retail Traders</span>
+      <span class="tagline-nav">Your Guide To Smart Investing</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="course.html">Our Course</a></li>
+    <li><a href="faqs.html">FAQ's</a></li>
+    <li><a href="contact.html" class="active">Contact Us</a></li>
+    <li><a href="https://wa.me/917796377940" class="cta-btn">Enroll Now →</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-banner">
+  <div class="banner-inner reveal">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Contact Us</span></div>
+    <h1>Get in <span>Touch</span></h1>
+    <p>Questions about the course, enrollment, or the next batch? We respond personally — no bots, no automated replies. Reach out and we'll get back to you promptly.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="contact-layout">
+
+    <!-- FORM -->
+    <div class="reveal">
+      <div class="form-card">
+        <div id="formContent">
+          <div class="form-title">Send us a Message</div>
+          <div class="form-sub">Fill in the form and we'll get back to you within 24 hours — or reach us directly on WhatsApp for a faster response.</div>
+          <form id="contactForm" onsubmit="submitForm(event)">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">First Name *</label><input class="form-input" type="text" name="first_name" placeholder="Rahul" required></div>
+              <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" type="text" name="last_name" placeholder="Mehta"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">WhatsApp Number *</label><input class="form-input" type="tel" name="whatsapp" placeholder="+91 98765 43210" required></div>
+              <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" name="email" placeholder="rahul@email.com"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">I'm enquiring about *</label>
+              <div class="select-wrap"><select class="form-select" name="topic" required>
+                <option value="" disabled selected>Select a topic</option>
+                <option>Course enrollment &amp; pricing</option>
+                <option>Upcoming batch schedule</option>
+                <option>The ₹99 Monthly Webinar</option>
+                <option>Course curriculum &amp; content</option>
+                <option>Technical access &amp; recordings</option>
+                <option>Something else</option>
+              </select></div>
+            </div>
+            <div class="form-group"><label class="form-label">Your Experience Level</label>
+              <div class="select-wrap"><select class="form-select" name="level">
+                <option value="" disabled selected>Select your level</option>
+                <option>Complete Beginner — Never traded before</option>
+                <option>Working Professional — Want a side income</option>
+                <option>Retired — Looking for steady returns</option>
+                <option>Intermediate Trader — Want to improve</option>
+              </select></div>
+            </div>
+            <div class="form-group"><label class="form-label">Your Message</label><textarea class="form-textarea" name="message" placeholder="Tell us what's on your mind — any specific questions, your goals, or what you're looking to get out of the course…"></textarea></div>
+            <button type="submit" class="form-submit">Send Message →</button>
+            <div class="form-note">We typically respond within a few hours. For instant answers, WhatsApp is fastest.</div>
+          </form>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <span class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <div class="success-title">Message Sent!</div>
+          <div class="success-sub">Thank you for reaching out. We'll get back to you on WhatsApp or email within 24 hours.<br><br>For a faster response, you can also message us directly:</div>
+          <br>
+          <a href="https://wa.me/917796377940" class="btn btn-green" style="margin:0 auto;">Chat on WhatsApp →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="contact-sidebar">
+
+      <div class="response-card reveal">
+        <div class="rt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div><div class="rt-title">Fast Response Guaranteed</div><div class="rt-sub">WhatsApp messages answered within minutes. Email within 24 hours. No bots — always a real person.</div></div>
+      </div>
+
+      <a href="https://wa.me/917796377940" class="contact-card cc-link reveal">
+        <div class="cc-icon-wrap cc-icon-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div class="cc-body">
+          <div class="cc-label">WhatsApp — Fastest Response</div>
+          <div class="cc-value">+91 77963 77940</div>
+          <div class="cc-sub">Tap to open in WhatsApp</div>
+          <div class="cc-action">Message us now →</div>
+        </div>
+      </a>
+
+      <a href="mailto:smartretailtraderscommunity@gmail.com" class="contact-card cc-link reveal">
+        <div class="cc-icon-wrap cc-icon-steel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div class="cc-body">
+          <div class="cc-label">Email Address</div>
+          <div class="cc-value" style="font-size:13px;word-break:break-all;">smartretailtraderscommunity@gmail.com</div>
+          <div class="cc-sub">Response within 24 hours</div>
+          <div class="cc-action">Send an email →</div>
+        </div>
+      </a>
+
+      <a href="https://t.me/smartretailtraderscommunity" class="contact-card cc-link reveal">
+        <div class="cc-icon-wrap" style="background:#E3F4FB;border:1px solid rgba(34,158,217,.25);color:#229ED9;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5 2.5 12.5l5.5 2 2 6 3-4 5 4 3-16z"/><path d="m8 14.5 9-7"/></svg></div>
+        <div class="cc-body">
+          <div class="cc-label">Telegram Community</div>
+          <div class="cc-value">@smartretailtraderscommunity</div>
+          <div class="cc-sub">Join 180+ members — free daily insights</div>
+          <div class="cc-action">Join the community →</div>
+        </div>
+      </a>
+
+      <a href="https://www.instagram.com/srt.community/" class="contact-card cc-link reveal">
+        <div class="cc-icon-wrap" style="background:linear-gradient(135deg,rgba(240,148,51,.15),rgba(204,35,102,.15));border:1px solid rgba(204,35,102,.2);color:#cc2366;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></div>
+        <div class="cc-body">
+          <div class="cc-label">Instagram</div>
+          <div class="cc-value">@srt.community</div>
+          <div class="cc-sub">Follow for daily market content &amp; updates</div>
+          <div class="cc-action">Follow us →</div>
+        </div>
+      </a>
+
+      <div class="contact-card reveal" style="background:var(--gray-bg);border-color:transparent;cursor:default;">
+        <div class="cc-icon-wrap cc-icon-mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="cc-body">
+          <div class="cc-label">Available Hours</div>
+          <div class="cc-value">Mon – Sat, 9 AM – 8 PM</div>
+          <div class="cc-sub">Indian Standard Time (IST). WhatsApp is monitored throughout the day.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL STRIP -->
+<div class="social-strip">
+  <h3 class="reveal">Follow us across platforms</h3>
+  <p class="reveal">Stay updated with daily market insights, chart breakdowns, and course announcements.</p>
+  <div class="social-cards reveal">
+    <a href="https://www.instagram.com/srt.community/" class="social-card">
+      <div class="sc-icon sc-ig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></div>
+      <div><div class="sc-name">Instagram</div><div class="sc-handle">@srt.community</div></div>
+    </a>
+    <a href="https://t.me/smartretailtraderscommunity" class="social-card">
+      <div class="sc-icon sc-tg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5 2.5 12.5l5.5 2 2 6 3-4 5 4 3-16z"/><path d="m8 14.5 9-7"/></svg></div>
+      <div><div class="sc-name">Telegram</div><div class="sc-handle">Free community channel</div></div>
+    </a>
+    <a href="https://wa.me/917796377940" class="social-card">
+      <div class="sc-icon sc-wa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <div><div class="sc-name">WhatsApp</div><div class="sc-handle">+91 77963 77940</div></div>
+    </a>
+    <a href="https://www.youtube.com/@SmartRetailTradersCommunity" class="social-card">
+      <div class="sc-icon sc-yt">▶</div>
+      <div><div class="sc-name">YouTube</div><div class="sc-handle">SRT Community</div></div>
+    </a>
+  </div>
+</div>
+
+<!-- WHATSAPP BANNER -->
+<div class="wa-banner">
+  <div class="wa-content reveal">
+    <h2>The fastest answer is <span>one message away.</span></h2>
+    <p>WhatsApp is where we're most responsive. Whether it's a quick question about the next batch, fee details, or anything else — just send us a message and we'll reply personally.</p>
+  </div>
+  <div class="wa-action reveal">
+    <div class="wa-number"><small>WhatsApp</small>+91 77963 77940</div>
+    <a href="https://wa.me/917796377940" class="btn-wa">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      Open WhatsApp
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="index.html" class="ft-logo">
+
+        <div><div class="name">Smart Retail Traders</div><div class="sub">Your Guide To Smart Investing</div></div>
+      </a>
+      <div class="ft-tagline">"Empowering traders, unlocking opportunities."</div>
+      <p class="ft-desc">Simplifying the complexities of stock and forex markets through structured, practical education — for every type of retail trader in India.</p>
+      <div class="ft-social">
+        <a href="https://www.instagram.com/srt.community/" title="Instagram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://t.me/smartretailtraderscommunity" title="Telegram">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </a>
+        <a href="https://wa.me/917796377940" title="WhatsApp">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <h5>Pages</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="course.html">Our Course</a></li>
+        <li><a href="faqs.html">FAQ's</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Markets We Cover</h5>
+      <ul>
+        <li><a href="course.html">Indian Equity</a></li>
+        <li><a href="course.html">Futures &amp; Options</a></li>
+        <li><a href="course.html">Forex Trading</a></li>
+        <li><a href="course.html">Cryptocurrency</a></li>
+        <li><a href="course.html">SMC &amp; ICT Concepts</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Contact</h5>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><a href="https://wa.me/917796377940">+91 77963 77940</a></div>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></svg></span><a href="mailto:smartretailtraderscommunity@gmail.com">smartretailtraderscommunity@gmail.com</a></div>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 4.5 2.5 12.5l5.5 2 2 6 3-4 5 4 3-16z"/><path d="m8 14.5 9-7"/></svg></span><a href="https://t.me/smartretailtraderscommunity">Telegram Community</a></div>
+      <div class="ft-contact-item"><span class="ft-contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></svg></span><a href="https://www.instagram.com/srt.community/">@srt.community</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Smart Retail Traders. All rights reserved.</span>
+    <span>Your Guide To Smart Investing</span>
+  </div>
+</footer>
+
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  /* ─────────────────────────────────────────────────────────────
+     EmailJS — paste your three values below (see setup steps).
+     ───────────────────────────────────────────────────────────── */
+  const EMAILJS_PUBLIC_KEY  = "hCEEFse1o2WJSz24X";
+  const EMAILJS_SERVICE_ID  = "service_exfd14t";
+  const EMAILJS_TEMPLATE_ID = "template_1gmnugh";
+  if (window.emailjs) { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); }
+
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:0.08, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  const ham = document.getElementById('hamburger');
+  const nl = document.getElementById('navLinks');
+  ham.addEventListener('click', () => nl.classList.toggle('open'));
+  document.addEventListener('click', e => { if(!e.target.closest('nav')) nl.classList.remove('open'); });
+
+
+  function submitForm(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    const label = btn.innerHTML;
+
+    function showSuccess() {
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }
+
+    // If EmailJS isn't configured/loaded yet, just confirm visually.
+    if (!window.emailjs || EMAILJS_SERVICE_ID === "YOUR_SERVICE_ID") {
+      showSuccess();
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = 'Sending…';
+    emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, form)
+      .then(function () {
+        showSuccess();
+      })
+      .catch(function (err) {
+        btn.disabled = false;
+        btn.innerHTML = label;
+        alert("Sorry — your message couldn't be sent right now. Please try again, or reach us directly on WhatsApp.");
+        console.error('EmailJS error:', err);
+      });
+  }
+</script>
+</body>
+</html>
